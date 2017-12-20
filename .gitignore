@@ -1,4 +1,5 @@
 config/db.php
+controller/YufaController.php
 assets/*
 !assets/.gitignore
 protected/runtime/*
