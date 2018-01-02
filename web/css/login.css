@@ -3,7 +3,7 @@ body{
 }
 
 .loginDiv{
-	background:white;
+	background:white url(/english/web/images/divback.jpg);
 	width:600px;
 	border:1px dashed gray;
 	border-radius:15px;

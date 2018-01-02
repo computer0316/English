@@ -34,9 +34,9 @@ use app\models\User;
 			<li><a href="#">首页</a></li>
 			<?php
 				echo Yii::$app->session->get('userid') ?
-					('<li><a href="#">退出</a></li>')
+					('<li><a href="?r=user/logout">退出</a></li>')
 					:
-					('<li><a href="#">登录</a></li>');
+					('<li><a href="?r=user/login">登录</a></li>');
 			?>
 		</ul>
 
