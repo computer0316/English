@@ -15,6 +15,7 @@ class LoginForm extends Model
 {
     public $mobile;
     public $password;
+    public $verifyCode;
     public $rememberMe = true;
 
     private $_user = false;
@@ -24,6 +25,7 @@ class LoginForm extends Model
         return [
             'mobile' 	=> '手机号',
             'password'	=> '密码',
+            'verifyCode'=> '验证码',
             ];
     }
 
@@ -34,7 +36,7 @@ class LoginForm extends Model
     {
         return [
             // username and password are both required
-            [['mobile', 'password'], 'required'],
+            [['mobile', 'password', 'verifyCode'], 'required'],
             // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
         ];

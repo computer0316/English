@@ -79,6 +79,7 @@ class UserController extends Controller
 		Register action
 	*/
 	public function actionRegister(){
+		$this->layout = 'login';
 		$model = new RegisterForm();
 		$post = Yii::$app->request->post();
 		if($model->load($post)){
@@ -109,7 +110,7 @@ class UserController extends Controller
      */
     public function actionLogin()
     {
-    	$this->layout = false;
+    	$this->layout = 'login';
 		$model	= new LoginForm();
 		$post		= Yii::$app->request->post();
 		if($model->load($post)){

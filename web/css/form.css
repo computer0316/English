@@ -1,0 +1,49 @@
+.form-group{
+	float:left;
+	clear:both;
+	width:100%;
+}
+
+.control-label{
+	float:left;
+	width:150px;
+	text-align:right;
+	margin:10px 5px;
+	line-height:25px;
+}
+
+.form-control{
+	float:left;
+	margin:10px 5px;
+	border:1px solid gray;
+	border-radius:3px;
+}
+
+.captcha{
+	float:right;
+	width:100px;
+	height:40px;
+}
+
+.help-block{
+	float:left;
+	margin:10px 5px;
+	color:red;
+}
+.form-group button{
+	float:left;
+	width:150px;
+	margin-left:150px;
+	margin-top:10px;
+}
+.jump{
+	margin:50px;
+	line-height:45px;
+}
+.form-group a{
+	text-decoration:none;
+	color:blue;
+}
+.field-loginform-rememberme{
+	margin-left:160px;
+}
