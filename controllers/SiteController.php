@@ -90,14 +90,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-    	//$article = Article::findOne(1299);
-    	//VarDumper::Dump($article->category);
-    	$category = Category::findOne(55);//->all();
-    	echo '<meta charset="utf-8">';
-
-		foreach($category->article as $a){
-			echo $a->title . '<br />';
-		}
+    	return $this->render('index');
 	}
 
     public function getCategory(){
@@ -145,37 +138,7 @@ class SiteController extends Controller
 		return $parts;
 	}
 
-    /**
-     * Login action.
-     *
-     * @return Response|string
-     */
-    public function actionLogin()
-    {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
 
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        }
-        return $this->render('login', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Logout action.
-     *
-     * @return Response
-     */
-    public function actionLogout()
-    {
-        Yii::$app->user->logout();
-
-        return $this->goHome();
-    }
 
     /**
      * Displays contact page.

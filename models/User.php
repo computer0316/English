@@ -2,103 +2,96 @@
 
 namespace app\models;
 
-class User extends \yii\base\Object implements \yii\web\IdentityInterface
+use Yii;
+
+/**
+ * This is the model class for table "user".
+ *
+ * @property integer $id
+ * @property string $name
+ * @property string $mobile
+ * @property string $password
+ * @property string $firsttime
+ * @property string $updatetime
+ * @property string $ip
+ * @property string $identification
+ * @property string $address
+ */
+class User extends \yii\db\ActiveRecord
 {
-    public $id;
-    public $username;
-    public $password;
-    public $authKey;
-    public $accessToken;
-
-    private static $users = [
-        '100' => [
-            'id' => '100',
-            'username' => 'admin',
-            'password' => 'admin',
-            'authKey' => 'test100key',
-            'accessToken' => '100-token',
-        ],
-        '101' => [
-            'id' => '101',
-            'username' => 'demo',
-            'password' => 'demo',
-            'authKey' => 'test101key',
-            'accessToken' => '101-token',
-        ],
-    ];
-
-
     /**
      * @inheritdoc
      */
-    public static function findIdentity($id)
+    public static function tableName()
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        return 'user';
     }
 
     /**
      * @inheritdoc
      */
-    public static function findIdentityByAccessToken($token, $type = null)
+    public function rules()
     {
-        foreach (self::$users as $user) {
-            if ($user['accessToken'] === $token) {
-                return new static($user);
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Finds user by username
-     *
-     * @param string $username
-     * @return static|null
-     */
-    public static function findByUsername($username)
-    {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
-            }
-        }
-
-        return null;
+        return [
+            [['mobile', 'password', 'firsttime', 'updatetime'], 'required'],
+            [['firsttime', 'updatetime'], 'safe'],
+            [['name', 'mobile', 'address'], 'string', 'max' => 16],
+            [['password'], 'string', 'max' => 64],
+            [['ip', 'identification'], 'string', 'max' => 32],
+        ];
     }
 
     /**
      * @inheritdoc
      */
-    public function getId()
+    public function attributeLabels()
     {
-        return $this->id;
+        return [
+            'id' => 'ID',
+            'name' => 'Name',
+            'mobile' => 'Mobile',
+            'password' => 'Password',
+            'firsttime' => 'Firsttime',
+            'updatetime' => 'Updatetime',
+            'ip' => 'Ip',
+            'identification' => 'Identification',
+            'address' => 'Address',
+        ];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getAuthKey()
-    {
-        return $this->authKey;
-    }
 
-    /**
-     * @inheritdoc
-     */
-    public function validateAuthKey($authKey)
-    {
-        return $this->authKey === $authKey;
-    }
+	public function register(){
+		$this->firsttime= date("Y-m-d H:i:s");
+		$this->updatetime= date("Y-m-d H:i:s");
+		return $this->save();
+	}
 
-    /**
-     * Validates password
-     *
-     * @param string $password password to validate
-     * @return bool if password provided is valid for current user
-     */
-    public function validatePassword($password)
-    {
-        return $this->password === $password;
+	public static function login($loginForm){
+		$user = self::find()->where([
+			'mobile'	=> $loginForm->mobile,
+			'password'	=> md5($loginForm->password),
+		])->one();
+		if($user){
+			Yii::$app->session->set('userid', $user->id);
+			return $user->id;
+		}
+		else{
+			return false;
+		}
+	}
+
+
+	// 验证给定的手机号是否可用
+	// 可用返回 true
+	// 不可用（已存在）返回 false
+	public static function validateMobile($mobile){
+		return !self::find()->where(['mobile' => $mobile])->one();
+	}
+
+    public static function validatePassword($mobile, $password){
+    	return self::find()->where([
+    		'mobile'	=> $mobile,
+    		'password'	=> md5($password),
+    	])->one();
     }
 }
